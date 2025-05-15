@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>タスク編集</title>
+<link rel = "stylesheet" type = "text/css" href = "/css/style.css">
+</head>
+<body>
+    <h1><a href = "/">タスク編集</a></h1>
+        <main  th:each = "editTask:${editTasks}">
+            <form th:action = "@{/edited(id=${editTask.id})}" method = "post">
+                <table>
+                    <tr>
+                        <th>タスク名</th>
+                        <th>期日</th>
+                        <th>カテゴリー</th>
+                        <th>重要度</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type = "text" name = "name" th:value = "${editTask.name}">
+                        </td>
+                        <td>
+                            <input type = "date" name = "date" th:value = "${editTask.date}">
+                        </td>
+                        <td>
+                            <select>
+                                <option th:text = "${editTask.category.catName}" th:value = "${editTask.category.categoryId}" selected></option>
+                                <option th:each = "category:${categories}"
+                                        th:value = "${category.categoryId}"
+                                        th:text = "${category.catName}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type = "checkbox" name = "imp" value = "1" th:checked = "${editTask.imp == 1}">
+                        </td>
+                    </tr>
+                </table>
+                <button>登録</button>
+            </form>
+        </main>
+</body>
+</html>

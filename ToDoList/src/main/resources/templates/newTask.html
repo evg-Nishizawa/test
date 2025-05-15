@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>新規タスク</title>
+<link rel = "stylesheet" type = "text/css" href = "/css/style.css">
+</head>
+<body>
+    <h1><a href = "/">新規タスク</a></h1>
+        <main>
+            <form action = "/add" method = "post">
+                <table>
+                    <tr>
+                        <th>タスク名</th>
+                        <th>期日</th>
+                        <th>カテゴリー</th>
+                        <th>重要度</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type = "text" name = "name">
+                        </td>
+                        <td>
+                            <input type = "date" name = "date">
+                        </td>
+                        <td>
+                            <select name = "category">
+                                <option th:each = "category:${categories}"
+                                        th:value = "${category.categoryId}"
+                                        th:text = "${category.catName}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type = "checkbox" name = "imp" value = "1">
+                        </td>
+                    </tr>
+                </table>
+                <button>登録</button>
+            </form>
+        </main>
+</body>
+</html>

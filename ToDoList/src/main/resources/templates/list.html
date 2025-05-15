@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ToDoリスト</title>
+<link rel = "stylesheet" type = "text/css" href = "/css/style.css">
+</head>
+<body>
+    <h1>ToDoリスト</h1>
+    <main>
+    <div style="display:inline-flex">
+        <div style = "margin-right:235px">
+            <form action = "/add">
+                <button>新規</button>
+            </form>
+        </div>
+        <div style = "margin-left: 235px; display:inline-flex">
+            <form action = "/task/search" method = "post">
+                <select name = "categoryId" th:each = "category:${categories}">
+                    <option value = "0"></option>
+                    <option th:if = "${}" value = "0"></option>
+                    <option <!-- th:each = "category:${categories}"-->
+                                th:value = "${category.categoryId}"
+                                th:text = "${category.catName}"></option>
+                </select>
+                <select name = "taskSort">
+                    <option th:if = "${categoryId == 0 }" value = "0"></option>
+                    <option th:if = "${category != 0 }" th:value = "${category}"></option> 
+                    <option value = "1">期日順</option>
+                    <option value = "2">重要順</option>
+                </select>
+                <button>検索</button>
+            </form>
+            <form action = "/">
+                <button>解除</button>
+            </form>
+        </div>
+    </div>
+        <table>
+            <tr>
+                <th>☑</th>
+                <th>タスク</th>
+                <th>期日</th>
+                <th>カテゴリー</th>
+                <th>重要度</th>
+                <th>編集</th>
+                <th>消去</th>
+            </tr>
+            <tr th:each = "task:${tasks}" th:if = "${task.comp == 0}">
+                <td>
+                    <a href="" th:href="@{/comp(id=${task.id}, comp=${task.comp})}">□</a>
+                </td>
+                <td th:text = "${task.name}"></td>
+                <td th:text = "${task.date}"></td>
+                <td th:text = "${task.category.catName}"></td>
+                <td th:if = "${task.imp == 1}">☆</td>
+                <td th:if = "${task.imp == 0}"></td>
+                <td>
+                    <form th:action = "@{/edit(id=${task.id})}" method = "post">
+                        <button>編集</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action = "@{/delete(id=${task.id})}" method = post>
+                        <button>消去</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <h3>完了済み</h3>
+        <table>
+            <tr>
+                <th>☑</th>
+                <th>タスク</th>
+                <th>期日</th>
+                <th>カテゴリー</th>
+                <th>重要度</th>
+                <th>消去</th>
+            </tr>
+            <tr th:each = "task:${tasks}" th:if = "${task.comp == 1}">
+                <td>
+                    <a href = "" th:href = "@{/comp(id=${task.id}, comp=${task.comp})}">☑</a>
+                </td>
+                <td th:text = "${task.name}"></td>
+                <td th:text = "${task.date}"></td>
+                <td th:text = "${task.category.catName}"></td>
+                <td th:if = "${task.imp == 1}">☆</td>
+                <td th:if = "${task.imp == 0}"></td>
+                <td>
+                    <form th:action = "@{/delete(id=${task.id})}" method = post>
+                        <button>消去</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </main>
+</body>
+</html>
